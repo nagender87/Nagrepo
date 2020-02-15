@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="ms-proj-challengeFlow" doc:id="16f8c8f4-289d-4523-8c3c-3887d68301e5" >
+		<set-variable value='#[{
+  "employee": [
+    {
+      "id": "A007",
+      "first_name": "Jan",
+      "last_name": "Doe"
+    },
+    {
+      "id": "A008",
+      "first_name": "Ron",
+      "last_name": "David"
+    },
+    {
+      "id": "A009",
+      "first_name": "Jane",
+      "last_name": "Kane"
+    },
+    {
+      "id": "A010",
+      "first_name": "Marsh",
+      "last_name": "Megan"
+    },
+    {
+      "id": "A011",
+      "first_name": "Kelly",
+      "last_name": "Mitch"
+    },
+    {
+      "id": "A012",
+      "first_name": "Chris",
+      "last_name": "Vaste"
+    }
+  ]
+}]' doc:name="employee" doc:id="7ee73d73-b7b5-4436-917b-20f98f1238ff" variableName="employee"/>
+		<set-variable value='#[{
+  "scoreBoard": [
+    {
+      "id": "A007",
+      "subjects": [
+        "Maths",
+        "English",
+        "Arts",
+        "Drawimgs"
+      ],
+      "score": [
+        80,
+        75,
+        89,
+        100
+      ]
+    },
+    {
+      "id": "A008",
+      "subjects": [
+        "Maths",
+        "English",
+        "Arts",
+        "Drawimgs"
+      ],
+      "score": [
+        70,
+        85,
+        69,
+        90
+      ]
+    },
+    {
+      "id": " A021",
+      "subjects": [
+        "Maths",
+        "English",
+        "Arts",
+        "Drawimgs"
+      ],
+      "score": [
+        90,
+        87,
+        77,
+        95
+      ]
+    }
+  ]
+}]' doc:name="scoreboard" doc:id="c845a8bc-dc4f-4917-9c1b-b13f42adff16" variableName="scoreboard"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="850730ac-089f-46c9-952a-acba6bca11b6" >
+			<route >
+				<ee:transform doc:name="Transform Message" doc:id="9c414b78-e5a7-497e-b7df-6c70682b66c7">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+certificate
+: (vars.employee.employee map((emp,ind1) -> {
+	(vars.scoreboard.scoreBoard filter($.id == emp.id) map((scoreboard,ind2) -> {
+		"id": emp.id,
+		"firstName": emp.first_name,
+		"LastName": emp.last_name,
+		"MarksBySubjectWise": {
+			(scoreboard.score map(score,ind3)->{
+				(scoreboard.subjects[ind3]):(scoreboard.score[ind3])
+			})
+		}
+	}))
+})) filter(!isEmpty($))]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</route>
+			<route >
+				<ee:transform doc:name="Transform Message" doc:id="51dad3dd-b5f2-4621-886b-6c06bffc5d0f" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+certificate
+: (vars.employee.employee map((emp,ind1) -> {
+	"id": emp.id,
+	"firstName": emp.first_name,
+	"LastName": emp.last_name,
+	(vars.scoreboard.scoreBoard filter($.id == emp.id) map((scoreboard,ind2) -> {
+		"MarksBySubjectWise": {
+			(scoreboard.score map(score,ind3)->{
+				(scoreboard.subjects[ind3]):(scoreboard.score[ind3])
+			})
+		}
+	}))
+})) filter(!isEmpty($))]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</route>
+		</scatter-gather>
+	</flow>
+</mule>

@@ -1,0 +1,3 @@
+http.host: "localhost"
+http.private.port: "8081"
+http.path: "/api/*"

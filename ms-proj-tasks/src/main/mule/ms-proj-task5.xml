@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="ms-proj-task5Sub_Flow" doc:id="38ce972b-f4b9-4243-a4a6-df344e68bd5b" >
+		<logger level="INFO" doc:name="Logger" doc:id="d85b18e2-c5d7-444c-bd2b-e6c9294d19ce" />
+		<ee:transform doc:name="Transform Message" doc:id="02c836da-b851-4a49-9e86-560787701576" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var int_start = 1
+var int_end = vars.number
+---
+int_start to int_end map $]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+</mule>

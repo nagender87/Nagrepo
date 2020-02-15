@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="ms-proj-task1Sub_Flow" doc:id="6b03c274-1bee-4c29-9902-2af44192dfff" >
+		<logger level="INFO" doc:name="Logger" doc:id="dd077902-278d-4817-828b-9087e6d7ca43" message="entering into employee subflow***"/>
+		<ee:transform doc:name="Transform Message" doc:id="1af8b647-a8a0-438e-810f-14af33f78e37" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.employee.first_name ++ " " ++ payload.employee.last_name ++ " " ++ "employee profile is created in HRMS System."]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="fdac09da-ebe5-4b30-8066-4c56527c7b6a" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="044e194a-cbd3-4966-89ea-189c34750668" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[import java!com::utils::CamCase
+output application/json
+---
+{
+  Output: CamCase::toCamelCase(payload.message as String)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

@@ -1,0 +1,12 @@
+{
+  "sampleData": {
+    "9c414b78-e5a7-497e-b7df-6c70682b66c7": {
+      "vars-scoreboard": "sample_data/object_1.dwl",
+      "vars-employee": "sample_data/object.dwl"
+    },
+    "51dad3dd-b5f2-4621-886b-6c06bffc5d0f": {
+      "vars-scoreboard": "sample_data/object_3.dwl",
+      "vars-employee": "sample_data/object_2.dwl"
+    }
+  }
+}

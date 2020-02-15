@@ -1,0 +1,72 @@
+#%RAML 1.0
+title: Employee API
+version: v1
+
+/emp-details:
+  displayName: Employee Details
+  description: | 
+    Creating Employee Profile   
+  post:
+    description: |
+      Creating Employee Profile based on given params .
+    body: 
+      application/json:
+         
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+                {
+                  "message": "Employee profile is created in HRMS System"
+                }
+      400:
+          body:
+            application/json:
+
+              example: |
+                {
+                  "message": "Bad Request"
+                }
+      500:
+          body:
+            application/json:
+              example: |
+                {
+                  "message": "Internal server error"
+                }
+
+/natural-number:
+  /{number}:
+  displayName: Natural Number
+  description: | 
+    Generate Natural Numbers   
+  get:
+    description: |
+      generating the natural numbers on given input number.
+    body: 
+      application/json:
+         
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+                {
+                  "message": "Natural numbers generated successfully"
+                }
+      400:
+          body:
+            application/json:
+
+              example: |
+                {
+                  "message": "Bad Request"
+                }
+      500:
+          body:
+            application/json:
+              example: |
+                {
+                  "message": "Internal server error"
+                }
